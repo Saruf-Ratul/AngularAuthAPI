@@ -4,13 +4,9 @@ using System.Security.Principal;
 
 namespace AngularAuthAPI.Interface
 {
-    public class IDashboard
+    public interface IDashboard
     {
-        //internal dynamic GetAll(AppDbContext db)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         dynamic GetAll(AppDbContext _db);
+        bool addData(Dashboard model, AppDbContext _db);
     }
 }

@@ -4,13 +4,15 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PHubApi.Helpers;
 using Microsoft.AspNetCore.Components;
-using RouteAttribute = Microsoft.AspNetCore.Components.RouteAttribute;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Common.Helpers;
 using AngularAuthAPI.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AngularAuthAPI.Controllers
 {
-    [Route("api")]
+    [Route("api/[controller]")]
     [ApiController]
     public class DashboardController : ControllerBase
     {
@@ -23,7 +25,7 @@ namespace AngularAuthAPI.Controllers
             _db = db;
         }
 
-        [HttpGet("dashboard/view")]
+        [HttpGet("view")]
         public IActionResult GetAll()
         {
             try
@@ -50,6 +52,42 @@ namespace AngularAuthAPI.Controllers
                 returnObj.Message = ex.Message;
                 returnObj.Data = null;
                 return Ok(returnObj);
+            }
+
+        }
+
+        [HttpPost("add")]
+        public IActionResult addData(Dashboard model)
+        {
+            using (var dbTransaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var data = _DashboardService.addData(model, _db);
+                    if (data)
+                    {
+                        dbTransaction.Commit();
+                        returnObj.IsExecuted = true;
+                        returnObj.Data = true;
+                        returnObj.Message = MessageConst.Insert;
+                        return Ok(returnObj);
+                    }
+                    else
+                    {
+                        dbTransaction.Rollback();
+                        returnObj.IsExecuted = false;
+                        returnObj.Data = null;
+                        return Ok(returnObj);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    dbTransaction.Rollback();
+                    returnObj.IsExecuted = false;
+                    returnObj.Data = null;
+                    return Ok(returnObj);
+                }
+
             }
 
         }

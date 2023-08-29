@@ -2,6 +2,7 @@
 using AngularAuthAPI.Interface;
 using AngularAuthAPI.Models;
 using Common.Helpers;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using static AngularAuthAPI.Context.AppDbContext;
 
@@ -19,7 +20,7 @@ namespace AngularAuthAPI.Service
         {
             var data = from a in _db.Dashboards
                                     .AsQueryable()
-                                    .Where(x => x.Id == ConstantValue.CompanyCode)
+                                    .Where(x => x.CompanyCode == ConstantValue.CompanyCode)
                                     .ToList()
                        select new
                        {
@@ -29,8 +30,20 @@ namespace AngularAuthAPI.Service
                        };
 
             return data;
+        }
 
-            throw new NotImplementedException();
+        public bool addData(Dashboard model, AppDbContext _db)
+        {
+            bool isSaved = false;
+            var obj = new Dashboard();
+            obj.Id = model.Id;
+            obj.CompanyCode = ConstantValue.CompanyCode;
+            obj.Name = model.Name;
+            obj.Description = model.Description;
+            _db.Dashboards.Add(obj);
+            _db.SaveChanges();
+            isSaved = true;
+            return isSaved;
         }
 
     }
