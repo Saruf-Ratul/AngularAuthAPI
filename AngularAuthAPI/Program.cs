@@ -58,6 +58,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IDashboard, DashboardService>();
+builder.Services.AddScoped<IApoinment, ApoinmentService>();
 
 builder.Services.AddAuthentication(x =>
 {
