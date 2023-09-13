@@ -59,6 +59,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IDashboard, DashboardService>();
 builder.Services.AddScoped<IApoinment, ApoinmentService>();
+builder.Services.AddScoped<ItbAppointment, tbAppointmentService>();
 
 builder.Services.AddAuthentication(x =>
 {

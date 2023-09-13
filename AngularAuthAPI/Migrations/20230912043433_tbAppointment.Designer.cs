@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AngularAuthAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230909061010_Apoinment-Table")]
-    partial class ApoinmentTable
+    [Migration("20230912043433_tbAppointment")]
+    partial class tbAppointment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,8 +59,9 @@ namespace AngularAuthAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("PhoneNumber")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Problem")
                         .IsRequired()
@@ -94,6 +95,129 @@ namespace AngularAuthAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("dashboards", (string)null);
+                });
+
+            modelBuilder.Entity("AngularAuthAPI.Models.tbAppointment", b =>
+                {
+                    b.Property<decimal>("App_ID")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool?>("APP_Confirm")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("APP_Re_Confirm")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("App_Entry_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("App_Serial")
+                        .HasColumnType("int");
+
+                    b.Property<byte?>("App_TypeId")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int?>("Appby_Secu_EMPID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Bay_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Chesis_No")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Computer_Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Computer_UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Confirmby_Secu_EMPID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Cust_Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerRequest")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EMPID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("End_Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal?>("KM")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("Level_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MobleNO_SMS")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Model_Year")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte?>("Print_count")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Remarks")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Reminder1_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("Reminder2_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("Reminder3_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("Schedule_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("Schedule_Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("SysDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("vPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("vReg_No")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("App_ID");
+
+                    b.ToTable("tbAppointment", (string)null);
                 });
 
             modelBuilder.Entity("AngularAuthAPI.Models.User", b =>

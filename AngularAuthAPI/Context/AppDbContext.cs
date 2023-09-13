@@ -31,6 +31,8 @@ namespace AngularAuthAPI.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Dashboard> Dashboards { get; set; }
         public DbSet<Apoinment> Apoinments { get; set; }
+        public DbSet<tbAppointment> tbAppointment { get; set; }
+        public DbSet<tbAppType> tbAppType { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -40,6 +42,10 @@ namespace AngularAuthAPI.Context
             builder.Entity<Apoinment>().ToTable("Apoinments");
             builder.Entity<Apoinment>().HasKey(a => a.Id);
             builder.Entity<Apoinment>().Property(a => a.Id).ValueGeneratedOnAdd();
+            builder.Entity<tbAppointment>().ToTable("tbAppointment");
+            builder.Entity<tbAppointment>().HasKey(appointment => appointment.App_ID);
+            builder.Entity<tbAppType>().ToTable("tbAppType");
+            builder.Entity<tbAppType>().HasKey(appointmentType => appointmentType.App_TypeId);
         }
 
 
