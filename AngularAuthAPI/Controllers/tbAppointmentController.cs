@@ -10,6 +10,7 @@ using AngularAuthAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AngularAuthAPI.Service;
+using Newtonsoft.Json;
 
 namespace AngularAuthAPI.Controllers
 {
@@ -92,6 +93,55 @@ namespace AngularAuthAPI.Controllers
             }
 
         }
+
+        [HttpPut("find/{app_ID}")]
+        public IActionResult approvedData(decimal app_ID, tbAppointment model)
+        {
+            using (var dbTransaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var message = "";
+                    //var oldData = _tbAppointmentService.approvedData((decimal)model.app_ID, _db);
+                    //string oldjson = JsonConvert.SerializeObject(oldData);
+
+                    var data = _tbAppointmentService.approvedData(model, _db);
+                    if (data)
+                    {
+                        dbTransaction.Commit();
+                        returnObj.IsExecuted = true;
+                        returnObj.Data = true;
+                        returnObj.Message = message;
+                        return Ok(returnObj);
+                    }
+                    else
+                    {
+                        dbTransaction.Rollback();
+                        returnObj.IsExecuted = false;
+                        returnObj.Message = MessageConst.UpdateError;
+                        returnObj.Data = null;
+                        return Ok(returnObj);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    dbTransaction.Rollback();
+                    if (ex.InnerException != null)
+                    {
+                        returnObj.Message = ex.InnerException.Message;
+                    }
+                    else
+                    {
+                        returnObj.Message = ex.Message;
+                    }
+                    returnObj.IsExecuted = false;
+                    returnObj.Data = null;
+                    return Ok(returnObj);
+                }
+
+            }
+        }
+
 
         //tbAppType
         [HttpGet("view_tbAppType")]

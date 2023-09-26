@@ -2,6 +2,7 @@
 using AngularAuthAPI.Interface;
 using AngularAuthAPI.Models;
 using Common.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using static AngularAuthAPI.Context.AppDbContext;
@@ -22,11 +23,34 @@ namespace AngularAuthAPI.Service
             return data;
         }
 
+        //async Task<int?> GetAppIDAsync()
+        //{
+        //    int? appID = await _db.tbAppointment
+        //        .Select(a => (int?)a.App_ID) // Cast to nullable int
+        //        .FirstOrDefaultAsync();
+
+        //    return appID;
+        //}
+
         public bool addData(tbAppointment model, AppDbContext _db)
         {
+            var ComputerName = System.Environment.MachineName;
+            var ComputerUserName = System.Environment.UserName;
+            int? AppID = _db.tbAppointment
+                .Select(a => (int?)a.App_ID)
+                .Max();
+            if (AppID == null)
+            {
+                AppID = 1;
+            }
+            else
+            {
+                AppID = AppID + 1;
+            }
+
             bool isSaved = false;
             var obj = new tbAppointment();
-            obj.App_ID = model.App_ID;
+            obj.App_ID = (decimal)AppID;
             obj.Schedule_Date = model.Schedule_Date;
             obj.Schedule_Time = model.Schedule_Time;
             obj.End_Time = model.End_Time;
@@ -57,14 +81,30 @@ namespace AngularAuthAPI.Service
             obj.APP_Re_Confirm = model.APP_Re_Confirm;
             obj.Chesis_No = model.Chesis_No;
             obj.UserName = model.UserName;
-            obj.Computer_Name = model.Computer_Name;
-            obj.Computer_UserName = model.Computer_UserName;
-            obj.SysDate = model.SysDate;
+            obj.Computer_Name = ComputerName;
+            obj.Computer_UserName = ComputerUserName;
+            obj.SysDate = DateTime.Now;
             _db.tbAppointment.Add(obj);
             _db.SaveChanges();
             isSaved = true;
             return isSaved;
         }
+
+
+        public bool approvedData(tbAppointment model, AppDbContext _db)
+        {
+            bool isSaved = false;
+            var oldData = _db.tbAppointment.FirstOrDefault(x => x.App_ID == model.App_ID);
+            if (oldData != null)
+            {
+                oldData.APP_Confirm = true;
+                _db.Entry(oldData).State = EntityState.Modified;
+                _db.SaveChanges();
+                isSaved = true;
+            }
+            return isSaved;
+        }
+        
 
         //tbAppType
         public dynamic GetAlltbAppType(AppDbContext _db)
