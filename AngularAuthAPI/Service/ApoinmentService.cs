@@ -37,5 +37,11 @@ namespace AngularAuthAPI.Service
             return isSaved;
         }
 
+
+        public dynamic UserData( string username, AppDbContext _db)
+        {
+            var data = _db.Users.AsQueryable().FirstOrDefault(x => x.Username == username);
+            return data;
+        }
     }
 }

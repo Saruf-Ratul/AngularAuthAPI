@@ -1,5 +1,6 @@
 ﻿using AngularAuthAPI.Context;
 using AngularAuthAPI.Helpers;
+using AngularAuthAPI.Migrations;
 using AngularAuthAPI.Models;
 using AngularAuthAPI.Models.DTO_s;
 using AngularAuthAPI.Models.DTOs;
@@ -276,5 +277,6 @@ namespace AngularAuthAPI.Controllers
                 sb.Append("Password should contain special charcter" + Environment.NewLine);
             return sb.ToString();
         }
+
     }
 }

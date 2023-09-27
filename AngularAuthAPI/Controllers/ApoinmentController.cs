@@ -62,6 +62,39 @@ namespace AngularAuthAPI.Controllers
 
         }
 
+        //User
+        [HttpGet("userData/{username}")]
+        public IActionResult UserData(string username)
+        {
+            try
+            {
+                var data = _ApoinmentService.UserData(username,_db);
+
+                if (data != null)
+                {
+                    returnObj.IsExecuted = true;
+                    returnObj.Data = data;
+                    return Ok(returnObj);
+                }
+                else
+                {
+                    returnObj.IsExecuted = false;
+                    returnObj.Message = MessageConst.NotFound;
+                    returnObj.Data = null;
+                    return Ok(returnObj);
+                }
+            }
+            catch (Exception ex)
+            {
+                returnObj.IsExecuted = false;
+                returnObj.Message = ex.Message;
+                returnObj.Data = null;
+                return Ok(returnObj);
+            }
+
+        }
+
+
 
     }
 }

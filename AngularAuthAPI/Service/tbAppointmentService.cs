@@ -23,15 +23,6 @@ namespace AngularAuthAPI.Service
             return data;
         }
 
-        //async Task<int?> GetAppIDAsync()
-        //{
-        //    int? appID = await _db.tbAppointment
-        //        .Select(a => (int?)a.App_ID) // Cast to nullable int
-        //        .FirstOrDefaultAsync();
-
-        //    return appID;
-        //}
-
         public bool addData(tbAppointment model, AppDbContext _db)
         {
             var ComputerName = System.Environment.MachineName;
@@ -90,21 +81,47 @@ namespace AngularAuthAPI.Service
             return isSaved;
         }
 
+        public bool ApproveAppointment(decimal app_ID)
+        {
+            try
+            {
+                var oldData = _db.tbAppointment.FirstOrDefault(x => x.App_ID == app_ID);
+                if (oldData != null)
+                {
+                    oldData.APP_Confirm = true;
+                    _db.Entry(oldData).State = EntityState.Modified;
+                    _db.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to approve appointment.", ex);
+            }
+        }
 
-        public bool approvedData(tbAppointment model, AppDbContext _db)
+        public bool Delete(decimal app_ID)
         {
             bool isSaved = false;
-            var oldData = _db.tbAppointment.FirstOrDefault(x => x.App_ID == model.App_ID);
-            if (oldData != null)
+            try
             {
-                oldData.APP_Confirm = true;
-                _db.Entry(oldData).State = EntityState.Modified;
-                _db.SaveChanges();
+                var data = _db.tbAppointment.FirstOrDefault(x => x.App_ID == app_ID);
+
+                if (data != null)
+                {
+                    _db.tbAppointment.Remove(data);
+                    _db.SaveChanges();
+                }
                 isSaved = true;
+            }
+            catch (Exception ex)
+            {
+                isSaved = false;
             }
             return isSaved;
         }
-        
+
 
         //tbAppType
         public dynamic GetAlltbAppType(AppDbContext _db)
