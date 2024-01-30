@@ -141,6 +141,50 @@ namespace AngularAuthAPI.Controllers
             }
         }
 
+        [HttpPut("reapprove/{app_ID}")]
+        public IActionResult ReApproveAppointment(decimal app_ID)
+        {
+            using (var dbTransaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var message = "";
+                    var result = _tbAppointmentService.ReApproveAppointment(app_ID);
+                    if (result)
+                    {
+                        dbTransaction.Commit();
+                        returnObj.IsExecuted = true;
+                        returnObj.Data = true;
+                        returnObj.Message = message;
+                        return Ok(returnObj);
+                    }
+                    else
+                    {
+                        dbTransaction.Rollback();
+                        returnObj.IsExecuted = false;
+                        returnObj.Message = MessageConst.UpdateError;
+                        returnObj.Data = null;
+                        return Ok(returnObj);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    dbTransaction.Rollback();
+                    if (ex.InnerException != null)
+                    {
+                        returnObj.Message = ex.InnerException.Message;
+                    }
+                    else
+                    {
+                        returnObj.Message = ex.Message;
+                    }
+                    returnObj.IsExecuted = false;
+                    returnObj.Data = null;
+                    return Ok(returnObj);
+                }
+            }
+        }
+
 
         [HttpDelete("delete/{app_ID}")]
         public IActionResult Delete(decimal app_ID)
@@ -160,6 +204,39 @@ namespace AngularAuthAPI.Controllers
                 return Ok(returnObj);
             }
         }
+
+
+        //[HttpGet("view/{id}")]
+        //public IActionResult getIdData(decimal id)
+        //{
+        //    try
+        //    {
+        //        var data = _tbAppointmentService.getIdData(id, _db);
+
+        //        if (data != null)
+        //        {
+        //            returnObj.IsExecuted = true;
+        //            returnObj.Data = data;
+        //            return Ok(returnObj);
+        //        }
+        //        else
+        //        {
+        //            returnObj.IsExecuted = false;
+        //            returnObj.Message = MessageConst.NotFound;
+        //            returnObj.Data = null;
+        //            return Ok(returnObj);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        returnObj.IsExecuted = false;
+        //        returnObj.Message = ex.Message;
+        //        returnObj.Data = null;
+        //        return Ok(returnObj);
+        //    }
+
+        //}
+
 
         //tbAppType
         [HttpGet("view_tbAppType")]

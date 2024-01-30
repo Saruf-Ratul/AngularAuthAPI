@@ -10,6 +10,8 @@ namespace AngularAuthAPI.Interface
         bool addData(tbAppointment model, AppDbContext _db);
         dynamic GetAlltbAppType(AppDbContext _db);
         bool ApproveAppointment(decimal app_ID);
+        bool ReApproveAppointment(decimal app_ID);
+        //dynamic getIdData(decimal id, AppDbContext _db);
         bool Delete(decimal app_ID);
 
     }

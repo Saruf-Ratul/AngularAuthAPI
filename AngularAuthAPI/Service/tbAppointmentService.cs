@@ -1,5 +1,6 @@
 ﻿using AngularAuthAPI.Context;
 using AngularAuthAPI.Interface;
+using AngularAuthAPI.Migrations;
 using AngularAuthAPI.Models;
 using Common.Helpers;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace AngularAuthAPI.Service
             return data;
         }
 
-        public bool addData(tbAppointment model, AppDbContext _db)
+        public bool addData(Models.tbAppointment model, AppDbContext _db)
         {
             var ComputerName = System.Environment.MachineName;
             var ComputerUserName = System.Environment.UserName;
@@ -40,7 +41,7 @@ namespace AngularAuthAPI.Service
             }
 
             bool isSaved = false;
-            var obj = new tbAppointment();
+            var obj = new Models.tbAppointment();
             obj.App_ID = (decimal)AppID;
             obj.Schedule_Date = model.Schedule_Date;
             obj.Schedule_Time = model.Schedule_Time;
@@ -101,6 +102,26 @@ namespace AngularAuthAPI.Service
             }
         }
 
+        public bool ReApproveAppointment(decimal app_ID)
+        {
+            try
+            {
+                var oldData = _db.tbAppointment.FirstOrDefault(x => x.App_ID == app_ID);
+                if (oldData != null)
+                {
+                    oldData.APP_Re_Confirm = true;
+                    _db.Entry(oldData).State = EntityState.Modified;
+                    _db.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to approve appointment.", ex);
+            }
+        }
+
         public bool Delete(decimal app_ID)
         {
             bool isSaved = false;
@@ -122,6 +143,59 @@ namespace AngularAuthAPI.Service
             return isSaved;
         }
 
+        //public dynamic getIdData(decimal id, AppDbContext _db)
+        //{
+        //    try
+        //    {
+        //        var oldData = _db.tbAppointment.FirstOrDefault(x => x.App_ID == id);
+        //        if (oldData != null)
+        //        {
+        //            var obj = new Models.tbAppointment();
+        //            obj.App_ID = oldData.App_ID;
+        //            obj.Schedule_Date = oldData.Schedule_Date;
+        //            obj.Schedule_Time = oldData.Schedule_Time;
+        //            obj.End_Time = oldData.End_Time;
+        //            obj.Cust_Name = oldData.Cust_Name;
+        //            obj.Address = oldData.Address;
+        //            obj.vReg_No = oldData.vReg_No;
+        //            obj.Model = oldData.Model;
+        //            obj.Model_Year = oldData.Model_Year;
+        //            obj.KM = oldData.KM;
+        //            obj.Reminder1_Date = oldData.Reminder1_Date;
+        //            obj.Reminder2_Date = oldData.Reminder2_Date;
+        //            obj.Reminder3_Date = oldData.Reminder3_Date;
+        //            obj.CustomerRequest = oldData.CustomerRequest;
+        //            obj.App_TypeId = oldData.App_TypeId;
+        //            obj.App_Serial = oldData.App_Serial;
+        //            obj.APP_Confirm = oldData.APP_Confirm;
+        //            obj.Appby_Secu_EMPID = oldData.Appby_Secu_EMPID;
+        //            obj.Confirmby_Secu_EMPID = oldData.Confirmby_Secu_EMPID;
+        //            obj.vPhone = oldData.vPhone;
+        //            obj.email = oldData.email;
+        //            obj.App_Entry_Date = oldData.App_Entry_Date;
+        //            obj.Print_count = oldData.Print_count;
+        //            obj.Level_Id = oldData.Level_Id;
+        //            obj.Bay_Id = oldData.Bay_Id;
+        //            obj.EMPID = oldData.EMPID;
+        //            obj.Remarks = oldData.Remarks;
+        //            obj.MobleNO_SMS = oldData.MobleNO_SMS;
+        //            obj.APP_Re_Confirm = oldData.APP_Re_Confirm;
+        //            obj.Chesis_No = oldData.Chesis_No;
+        //            obj.UserName = oldData.UserName;
+        //            obj.Computer_Name = oldData.Computer_Name;
+        //            obj.Computer_UserName = oldData.Computer_UserName;
+        //            obj.SysDate = oldData.SysDate;
+        //            return obj;
+        //            //return oldData;
+        //        }
+        //        return oldData;
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("No appointment.", ex);
+        //    }
+        //}
 
         //tbAppType
         public dynamic GetAlltbAppType(AppDbContext _db)
@@ -129,5 +203,6 @@ namespace AngularAuthAPI.Service
             var data = _db.tbAppType.ToList();
             return data;
         }
+
     }
 }
