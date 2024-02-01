@@ -4,6 +4,7 @@ using AngularAuthAPI.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AngularAuthAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240131104730_data-24")]
+    partial class data24
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,10 +47,6 @@ namespace AngularAuthAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmployeeCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InsertId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -142,10 +140,6 @@ namespace AngularAuthAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmployeeCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InsertId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -283,10 +277,6 @@ namespace AngularAuthAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("InsertId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("MealFor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -322,10 +312,6 @@ namespace AngularAuthAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ComputerUserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InsertId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -559,10 +545,6 @@ namespace AngularAuthAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmployeeCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InsertId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

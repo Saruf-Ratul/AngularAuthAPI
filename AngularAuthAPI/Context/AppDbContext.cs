@@ -34,6 +34,12 @@ namespace AngularAuthAPI.Context
         public DbSet<tbAppointment> tbAppointment { get; set; }
         public DbSet<tbAppType> tbAppType { get; set; }
         public DbSet<EmployeeMaster> EmployeeMaster { get; set; }
+        public DbSet<ServiceType> ServiceType { get; set; }
+        public DbSet<FoodMaster> FoodMaster { get; set; }
+        public DbSet<DailyFood> DailyFood { get; set; }
+        public DbSet<Account> Account { get; set; }
+        public DbSet<Ticket> Ticket { get; set; }
+        public DbSet<Printer> Printer { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -50,6 +56,24 @@ namespace AngularAuthAPI.Context
             builder.Entity<EmployeeMaster>().ToTable("EmployeeMaster");
             builder.Entity<EmployeeMaster>().HasKey(a => a.Id);
             builder.Entity<EmployeeMaster>().Property(a => a.Id).ValueGeneratedOnAdd();
+            builder.Entity<ServiceType>().ToTable("ServiceType");
+            builder.Entity<ServiceType>().HasKey(a => a.Id);
+            builder.Entity<ServiceType>().Property(a => a.Id).ValueGeneratedOnAdd();
+            builder.Entity<FoodMaster>().ToTable("FoodMaster");
+            builder.Entity<FoodMaster>().HasKey(a => a.Id);
+            builder.Entity<FoodMaster>().Property(a => a.Id).ValueGeneratedOnAdd();
+            builder.Entity<DailyFood>().ToTable("DailyFood");
+            builder.Entity<DailyFood>().HasKey(a => a.Id);
+            builder.Entity<DailyFood>().Property(a => a.Id).ValueGeneratedOnAdd();
+            builder.Entity<Account>().ToTable("Account");
+            builder.Entity<Account>().HasKey(a => a.Id);
+            builder.Entity<Account>().Property(a => a.Id).ValueGeneratedOnAdd();
+            builder.Entity<Ticket>().ToTable("Ticket");
+            builder.Entity<Ticket>().HasKey(a => a.Id);
+            builder.Entity<Printer>().Property(a => a.Id).ValueGeneratedOnAdd();
+            builder.Entity<Printer>().ToTable("Printer");
+            builder.Entity<Printer>().HasKey(a => a.Id);
+            builder.Entity<Printer>().Property(a => a.Id).ValueGeneratedOnAdd();
         }
 
 

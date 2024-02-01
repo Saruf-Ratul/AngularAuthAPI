@@ -10,67 +10,54 @@ using static AngularAuthAPI.Context.AppDbContext;
 
 namespace AngularAuthAPI.Service
 {
-    public class EmployeeMasterService : IEmployeeMaster
+    public class ServiceTypeService : IServiceType
     {
         private readonly AppDbContext _db;
-        public EmployeeMasterService(AppDbContext db)
+        public ServiceTypeService(AppDbContext db)
         {
             _db = db;
         }
-        //EmployeeMaster
+        //ServiceType
         public dynamic GetAll(AppDbContext _db)
         {
-            var data = _db.EmployeeMaster.ToList();
+            var data = _db.ServiceType.ToList();
             return data;
         }
 
-        public bool addData(Models.EmployeeMaster model, AppDbContext _db)
+        public bool addData(Models.ServiceType model, AppDbContext _db)
         {
             var ComputerName = System.Environment.MachineName;
             var ComputerUserName = System.Environment.UserName;
-            string? AppID = _db.EmployeeMaster
-                .Select(a => (string?)a.Id)
-                .Max();
-            if (AppID == null)
-            {
-                AppID = "1";
-            }
-            else
-            {
-                AppID = (int.Parse(AppID) + 1).ToString();
-            }
 
             bool isSaved = false;
-            var obj = new Models.EmployeeMaster();
-            obj.Id = AppID;
-            obj.CompanyCode = model.CompanyCode;
-            obj.EmployeeCode = model.EmployeeCode;
-            obj.EmployeeName = model.EmployeeName;
-            obj.Designation = model.Designation;
-            obj.Department = model.Department;
-            obj.PhoneNumber = model.PhoneNumber;
-            obj.EmailAddress = model.EmailAddress;
+            var obj = new Models.ServiceType();
+            obj.TypeId = model.TypeId;
+            obj.TypeId = model.TypeId;
+            obj.TypeName = model.TypeName;
+            obj.TypeDetails = model.TypeDetails;
+            obj.isActive = model.isActive;
+            obj.CreateDate = DateTime.Now;
             obj.UserName = model.UserName;
             obj.ComputerName = ComputerName;
             obj.ComputerUserName = ComputerUserName;
             obj.SysDate = DateTime.Now;
-            _db.EmployeeMaster.Add(obj);
+            _db.ServiceType.Add(obj);
             _db.SaveChanges();
             isSaved = true;
             return isSaved;
         }
 
 
-        public bool Delete(string id)
+        public bool Delete(string TypeId)
         {
             bool isSaved = false;
             try
             {
-                var data = _db.EmployeeMaster.FirstOrDefault(x => x.Id == id);
+                var data = _db.ServiceType.FirstOrDefault(x => x.TypeId == TypeId);
 
                 if (data != null)
                 {
-                    _db.EmployeeMaster.Remove(data);
+                    _db.ServiceType.Remove(data);
                     _db.SaveChanges();
                 }
                 isSaved = true;

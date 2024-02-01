@@ -61,6 +61,8 @@ builder.Services.AddScoped<IDashboard, DashboardService>();
 builder.Services.AddScoped<IApoinment, ApoinmentService>();
 builder.Services.AddScoped<ItbAppointment, tbAppointmentService>();
 builder.Services.AddScoped<IEmployeeMaster, EmployeeMasterService>();
+builder.Services.AddScoped<IServiceType, ServiceTypeService>();
+builder.Services.AddScoped<IFoodMaster, FoodMasterService>();
 
 builder.Services.AddAuthentication(x =>
 {
